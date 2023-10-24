@@ -4,6 +4,17 @@ import matplotlib.pyplot as plt
 
 
 def least_squares(y, tx):
+    """
+    Calculate the least squares solution.
+
+    Args:
+        y: shape=(N, 1)
+        tx: shape=(N, D)
+
+    Returns:
+        w: shape=(D, 1)
+        mse: scalar
+    """
     w = np.linalg.lstsq(tx.T @ tx, tx.T @ y, rcond=None)[0]
     res = y - tx @ w
     mse = res.T @ res / (2 * len(y))
