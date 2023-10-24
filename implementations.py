@@ -1,7 +1,6 @@
 # Useful starting lines
 import numpy as np
 import matplotlib.pyplot as plt
-from helpers import *
 
 
 def least_squares(y, tx):
@@ -49,10 +48,6 @@ def calculate_loss(y, tx, w):
     assert y.shape[0] == tx.shape[0]
     assert tx.shape[1] == w.shape[0]
 
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO
-    # ***************************************************
     N = y.shape[0]
     loss = -1 / N * np.sum(y * np.log(sigmoid(tx @ w)) + (1 - y) * np.log(1 - sigmoid(tx @ w)))
     return loss
@@ -78,10 +73,6 @@ def calculate_gradient(y, tx, w):
            [ 0.2067104 ],
            [ 0.51712843]])
     """
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO
-    # ***************************************************
     N = y.shape[0]
     return 1 / N * tx.T @ (sigmoid(tx @ w) - y)
 
@@ -112,22 +103,41 @@ def learning_by_gradient_descent(y, tx, w, gamma):
            [0.17932896],
            [0.24828716]])
     """
-    # ***************************************************
-    # INSERT YOUR CODE HERE
-    # TODO
-    # ***************************************************
     loss = calculate_loss(y, tx, w)
     gradient = calculate_gradient(y, tx, w)
     return loss, w - gamma * gradient
 
 
-def logistic_regression_gradient_descent_demo(y, x, max_iter=10000, threshold=1e-12, gamma=0.1, initial_w=None):
+def logistic_regression(y, tx, initial_w=None, max_iter=10000, gamma=0.1, threshold=1e-12):
+    """
+        Do logistic regression with the specified parameters until it converges under threshold.
+
+        Args:
+            y:  shape=(N, 1)
+            tx: shape=(N, D)
+            initial_w:  shape=(D, 1)
+            max_iter: int
+            gamma: float
+            threshold: float
+
+        Returns:
+            w: shape=(D, 1)
+            loss: scalar number
+
+        >>> y = np.c_[[0., 1.]]
+        >>> tx = np.arange(6).reshape(2, 3)
+        >>> w = np.array([[0.1], [0.2], [0.3]])
+        >>> gamma = 0.1
+        >>> w, loss = learning_by_gradient_descent(y, tx, w, gamma)
+        >>> round(loss, 8)
+        0.62137268
+        >>> w
+        array([[0.11037076],
+               [0.17932896],
+               [0.24828716]])
+        """
     losses = []
 
-    # build tx
-    # tx = np.c_[np.ones((y.shape[0], 1)), x]
-    # w = np.zeros((tx.shape[1], 1)) if initial_w is None else np.append(initial_w, 1.0)
-    tx = x
     w = np.zeros((tx.shape[1], 1)) if initial_w is None else initial_w
 
     # start the logistic regression
