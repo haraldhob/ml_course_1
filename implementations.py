@@ -19,16 +19,13 @@ def least_squares(y, tx):
     (array([ 0.21212121, -0.12121212]), 8.666684749742561e-33)
     """
     # Solve normal equation and get first result
-    equation = tx.T @ tx, tx.T @ y
-    ws = np.linalg.lstsq(
-            equation,
-            rcond=None
-    )
+    (a, b) = tx.T @ tx, tx.T @ y
+    ws = np.linalg.lstsq(a, b, rcond=None)
     w = ws[0]
     # Calculate residuals
     res = y - tx @ w
     # Calculate the Mean Squared Error
-    mse = (res.T @ res)/(2*len(y))
+    mse = (res.T @ res) / (2 * len(y))
     return w, mse
 
 
@@ -130,7 +127,7 @@ def learning_by_gradient_descent(y, tx, w, gamma):
 
 
 def logistic_regression(y, tx, initial_w=None, max_iter=10000, gamma=0.1, threshold=1e-12):
-    """return the loss, gradient of the loss, and hessian of the loss.
+    """return the loss, gradient of the loss
 
     Args:
         y:  shape=(N, 1)
